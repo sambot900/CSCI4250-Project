@@ -8,9 +8,9 @@ git init
 git add .
 
 #commit
-git commit -m "first commit"
+git commit -m "description"
 
-# select branch
+# create branch, where -M forces the rename as main here
 git branch -M main
 
 #point to github url
@@ -18,3 +18,11 @@ git remote add origin https://github.com/sambot900/CSCI4250-Project.git
 
 #push
 git push -u origin main
+
+-----------
+
+#Push and update:
+
+git add .
+git commit -m "description"
+git push

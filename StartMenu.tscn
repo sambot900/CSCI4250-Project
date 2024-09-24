@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqhvwjvhi7bpa"]
+
+[ext_resource type="Texture2D" uid="uid://cwuf56spr8kp5" path="res://Assets/StartMenu_bg.png" id="1_4htx4"]
+[ext_resource type="Texture2D" uid="uid://4x52xebnxplf" path="res://Assets/StartMenu_logo.png" id="2_v3wen"]
+
+[node name="StartMenu" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_4htx4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(586, 304)
+texture = ExtResource("2_v3wen")

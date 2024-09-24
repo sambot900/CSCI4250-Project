@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="CSCI4250 Project"
+run/main_scene="res://StartMenu.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [rendering]
 
