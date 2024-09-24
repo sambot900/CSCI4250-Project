@@ -1,0 +1,20 @@
+Commands used to intialize the git repository and push an initial commit.
+*navigate to project directory
+
+#create local git repo
+git init
+
+# Add all files into the commit
+git add .
+
+#commit
+git commit -m "first commit"
+
+# select branch
+git branch -M main
+
+#point to github url
+git remote add origin https://github.com/sambot900/CSCI4250-Project.git
+
+#push
+git push -u origin main
