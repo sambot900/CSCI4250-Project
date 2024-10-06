@@ -1,4 +1,6 @@
-Commands used to intialize the git repository and push an initial commit.
+-----------------------------------------------------------------
+
+# INIT NEW PROJECT
 *navigate to project directory
 
 #create local git repo
@@ -19,10 +21,39 @@ git remote add origin https://github.com/sambot900/CSCI4250-Project.git
 #push
 git push -u origin main
 
------------
+-----------------------------------------------------------------
 
-#Push and update:
+# PUSH AND UPDATE:
 
 git add .
-git commit -m "description"
+git commit -m "description of changes made"
 git push
+
+Godot 4.2.2 stable
+
+-----------------------------------------------------------------
+
+# CLONE PROJECT FROM REPO TO NEW COMPUTER/USER
+
+*Use the cd command to navigate to the directory where you want your project to reside.
+
+*Use the git clone command followed by your repository's URL to clone the project.
+
+git clone https://github.com/sambot900/CSCI4250-Project.git
+
+-----------------------------------------------------------------
+
+# MAKE A PULL REQUEST TO UPDATE YOUR LOCAL PROJECT FILE
+
+*Use the cd command to navigate to the directory where your project resides.
+
+*Use the git pull command to fetch and merge updates from the remote repository.
+
+git pull origin main
+
+(If there were conflicting changes... you need to manually resolve conflicts on the files Godot brings to your attention. After resolving, make a new commit:)
+
+git add .
+git commit -m "Resolved merge conflicts"
+
+-----------------------------------------------------------------

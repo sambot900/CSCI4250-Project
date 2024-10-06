@@ -1,18 +1,58 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqhvwjvhi7bpa"]
+[gd_scene load_steps=10 format=3 uid="uid://dqhvwjvhi7bpa"]
 
 [ext_resource type="Texture2D" uid="uid://cwuf56spr8kp5" path="res://Assets/StartMenu_bg.png" id="1_4htx4"]
 [ext_resource type="Script" path="res://StartMenu.gd" id="1_l2msf"]
 [ext_resource type="Texture2D" uid="uid://4x52xebnxplf" path="res://Assets/StartMenu_logo.png" id="2_v3wen"]
-[ext_resource type="Texture2D" uid="uid://c711p8jeav0nn" path="res://Assets/StartMenu_playbutton.png" id="4_0q3rx"]
+[ext_resource type="WhisperResource" path="res://addons/godot_whisper/models/gglm-tiny.en.bin" id="5_owhkv"]
+[ext_resource type="Script" path="res://addons/godot_whisper/capture_stream_to_text.gd" id="6_mu5m6"]
+[ext_resource type="AudioStream" uid="uid://b4jvjq148tap6" path="res://mixkit-game-success-alert-2039.wav" id="8_3y4p5"]
+[ext_resource type="Script" path="res://Recorder.gd" id="9_c7qlf"]
+
+[sub_resource type="GDScript" id="GDScript_47vba"]
+script/source = "extends RichTextLabel
+
+signal guess
+var success = false
+var answer = \"play\"
+
+func _ready():
+	custom_minimum_size.x = 400
+	bbcode_enabled = true
+	fit_content = true
+
+func update_text():
+	text = completed_text + \"[color=green]\" + partial_text + \"[/color]\"
+
+func _process(_delta):
+	update_text()
+
+var completed_text := \"\"
+var partial_text := \"\"
+
+func _on_speech_to_text_transcribed_msg(is_partial, new_text):
+	if is_partial == true:
+		completed_text += new_text
+		partial_text = \"\"
+	else:
+		if new_text!=\"\":
+			partial_text = new_text
+	
+	if answer in completed_text.to_lower() and success == false:
+		_success()
+		
+	if answer in partial_text.to_lower() and success == false:
+		_success()
+	
+func _success():
+	success = true
+	print(\"correct!\")
+	guess.emit()
+"
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_nouyg"]
 
 [node name="StartMenu" type="Node2D"]
 script = ExtResource("1_l2msf")
-
-[node name="Play Button" type="TouchScreenButton" parent="."]
-z_index = 10
-position = Vector2(470.435, 508)
-scale = Vector2(1.69565, 1.69565)
-texture_normal = ExtResource("4_0q3rx")
 
 [node name="Background Image" type="TextureRect" parent="."]
 offset_right = 40.0
@@ -23,4 +63,26 @@ texture = ExtResource("1_4htx4")
 position = Vector2(586, 304)
 texture = ExtResource("2_v3wen")
 
-[connection signal="pressed" from="Play Button" to="." method="_on_play_button_pressed"]
+[node name="SpeechToText" type="SpeechToText" parent="."]
+language_model = ExtResource("5_owhkv")
+script = ExtResource("6_mu5m6")
+
+[node name="Success Sound Player" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_3y4p5")
+
+[node name="Start Menu Transcribe" type="RichTextLabel" parent="."]
+visible = false
+offset_left = 13.0
+offset_top = 14.0
+offset_right = 53.0
+offset_bottom = 54.0
+script = SubResource("GDScript_47vba")
+
+[node name="Recorder" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamMicrophone_nouyg")
+autoplay = true
+bus = &"Record"
+script = ExtResource("9_c7qlf")
+
+[connection signal="transcribed_msg" from="SpeechToText" to="Start Menu Transcribe" method="_on_speech_to_text_transcribed_msg"]
+[connection signal="guess" from="Start Menu Transcribe" to="." method="_on_rich_text_label_guess"]

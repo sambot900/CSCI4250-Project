@@ -1,0 +1,56 @@
+[gd_scene load_steps=11 format=3 uid="uid://dqhvwjvhi7bpa"]
+
+[ext_resource type="Texture2D" uid="uid://cwuf56spr8kp5" path="res://Assets/StartMenu_bg.png" id="1_4htx4"]
+[ext_resource type="Script" path="res://StartMenu.gd" id="1_l2msf"]
+[ext_resource type="Texture2D" uid="uid://4x52xebnxplf" path="res://Assets/StartMenu_logo.png" id="2_v3wen"]
+[ext_resource type="Texture2D" uid="uid://c711p8jeav0nn" path="res://Assets/StartMenu_playbutton.png" id="4_0q3rx"]
+[ext_resource type="WhisperResource" path="res://addons/godot_whisper/models/gglm-tiny.en.bin" id="5_owhkv"]
+[ext_resource type="Script" path="res://addons/godot_whisper/capture_stream_to_text.gd" id="6_mu5m6"]
+[ext_resource type="AudioStream" uid="uid://b4jvjq148tap6" path="res://mixkit-game-success-alert-2039.wav" id="8_3y4p5"]
+[ext_resource type="Script" path="res://addons/godot_whisper/label_transcribe.gd" id="8_bwx5n"]
+[ext_resource type="Script" path="res://Recorder.gd" id="9_c7qlf"]
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_nouyg"]
+
+[node name="StartMenu" type="Node2D"]
+script = ExtResource("1_l2msf")
+
+[node name="Play Button" type="TouchScreenButton" parent="."]
+z_index = 10
+position = Vector2(470.435, 508)
+scale = Vector2(1.69565, 1.69565)
+texture_normal = ExtResource("4_0q3rx")
+
+[node name="Background Image" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_4htx4")
+
+[node name="Logo" type="Sprite2D" parent="."]
+position = Vector2(586, 304)
+texture = ExtResource("2_v3wen")
+
+[node name="SpeechToText" type="SpeechToText" parent="."]
+language_model = ExtResource("5_owhkv")
+script = ExtResource("6_mu5m6")
+
+[node name="Success Sound Player" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_3y4p5")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 13.0
+offset_top = 14.0
+offset_right = 53.0
+offset_bottom = 54.0
+script = ExtResource("8_bwx5n")
+
+[node name="Recorder" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamMicrophone_nouyg")
+autoplay = true
+bus = &"Record"
+script = ExtResource("9_c7qlf")
+
+[connection signal="toggle_record" from="." to="Recorder" method="_on_start_menu_toggle_record"]
+[connection signal="pressed" from="Play Button" to="." method="_on_play_button_pressed"]
+[connection signal="transcribed_msg" from="SpeechToText" to="RichTextLabel" method="_on_speech_to_text_transcribed_msg"]
+[connection signal="guess" from="RichTextLabel" to="." method="_on_rich_text_label_guess"]
