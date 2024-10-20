@@ -15,3 +15,7 @@ ALTERED CODE:
 The altered code expands on the tutorial code by detecting correct answers seeing if our pre-determined answer variable is in our partial_text or completed_text strings from the transcription.
 
 If it is, we set our boolean success variable to true and emit a "guess" signal which is listened for/captured by the main game logic loop.
+
+SOURCE:
+
+The source of the transcription script and the canned code is from the Godot Whisper Github Repository: https://github.com/V-Sekai/godot-whisper/blob/main/bin/addons/godot_whisper/label_transcribe.gd
