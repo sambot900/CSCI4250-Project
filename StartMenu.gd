@@ -4,11 +4,9 @@ func _ready():
 	# Connect the 'pressed' signal of the play_button to the _on_play_button_pressed() function
 	#play_button.pressed.connect(_on_play_button_pressed)
 	pass
-	
 
 func _process(_delta):
 	pass
-	
 
 func _voice_sound1():
 	var audio_player = $voice1

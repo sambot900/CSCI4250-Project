@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvm7f8pm5qm6n"]
+[gd_scene load_steps=9 format=3 uid="uid://cvm7f8pm5qm6n"]
 
 [ext_resource type="Texture2D" uid="uid://cwuf56spr8kp5" path="res://Assets/StartMenu_bg.png" id="1_5s0cs"]
 [ext_resource type="Script" path="res://Game.gd" id="1_f2wdx"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://addons/godot_whisper/capture_stream_to_text.gd" id="4_1flcq"]
 [ext_resource type="Script" path="res://transcribe2.gd" id="4_q4qg1"]
 [ext_resource type="AudioStream" uid="uid://b4jvjq148tap6" path="res://mixkit-game-success-alert-2039.wav" id="5_s8nmn"]
+[ext_resource type="Script" path="res://Recorder2.gd" id="7_sfr3r"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_gmuvy"]
 
@@ -25,7 +26,6 @@ offset_left = 477.0
 offset_top = 26.0
 offset_right = 864.0
 offset_bottom = 216.0
-text = "Say horse."
 script = ExtResource("4_q4qg1")
 
 [node name="SpeechToText" type="SpeechToText" parent="."]
@@ -34,4 +34,14 @@ script = ExtResource("4_1flcq")
 
 [node name="Recorder2" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamMicrophone_gmuvy")
-bus = &"Record"
+autoplay = true
+bus = &"Record2"
+script = ExtResource("7_sfr3r")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+offset_left = 536.0
+offset_top = 120.0
+offset_right = 707.0
+offset_bottom = 197.0
+text = "Horse
+"

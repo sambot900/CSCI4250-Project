@@ -8,7 +8,7 @@ func _ready():
 	var idx = AudioServer.get_bus_index("Record")
 	
 	effect = AudioServer.get_bus_effect(idx, 0)
-	print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+	print("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
