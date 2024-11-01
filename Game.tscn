@@ -1,47 +1,168 @@
-[gd_scene load_steps=9 format=3 uid="uid://cvm7f8pm5qm6n"]
+[gd_scene load_steps=12 format=3 uid="uid://ci8wwqft2lfdw"]
 
-[ext_resource type="Texture2D" uid="uid://cwuf56spr8kp5" path="res://Assets/StartMenu_bg.png" id="1_5s0cs"]
-[ext_resource type="Script" path="res://Game.gd" id="1_f2wdx"]
-[ext_resource type="WhisperResource" path="res://addons/godot_whisper/models/gglm-tiny.en.bin" id="3_oxrpw"]
-[ext_resource type="Script" path="res://addons/godot_whisper/capture_stream_to_text.gd" id="4_1flcq"]
-[ext_resource type="Script" path="res://transcribe2.gd" id="4_q4qg1"]
-[ext_resource type="AudioStream" uid="uid://b4jvjq148tap6" path="res://mixkit-game-success-alert-2039.wav" id="5_s8nmn"]
-[ext_resource type="Script" path="res://Recorder2.gd" id="7_sfr3r"]
+[ext_resource type="Script" path="res://game.gd" id="1_esewu"]
+[ext_resource type="Script" path="res://background.gd" id="2_jqo2s"]
+[ext_resource type="Texture2D" uid="uid://861loysaoxak" path="res://Assets/Background/gradient.png" id="2_lm8sm"]
+[ext_resource type="Texture2D" uid="uid://4x52xebnxplf" path="res://Assets/StartMenu_logo.png" id="3_eurcr"]
+[ext_resource type="Texture2D" uid="uid://df4feesyd6lx6" path="res://Assets/Background/stripes.png" id="3_oh6ju"]
+[ext_resource type="Script" path="res://scripts/SpeechRecognizer.cs" id="4_auivn"]
 
-[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_gmuvy"]
+[sub_resource type="Animation" id="Animation_00kc2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StartMenuBgStripes:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.261799]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StartMenuBgStripes:skew")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_kuqv4"]
+resource_name = "bg"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StartMenuBgStripes:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5, 10),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-0.261799, 0.261799, -0.261799]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StartMenuBgStripes:skew")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.43333, 5, 7.5, 10),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.436332, 0.0, -0.436332, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6fppn"]
+_data = {
+"RESET": SubResource("Animation_00kc2"),
+"bg": SubResource("Animation_kuqv4")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_3a4f0"]
+font_size = 29
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_agq7j"]
 
 [node name="Game" type="Node2D"]
-script = ExtResource("1_f2wdx")
+script = ExtResource("1_esewu")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("1_5s0cs")
+[node name="Background" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1153.0
+offset_bottom = 647.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("2_jqo2s")
 
-[node name="Success Sound Player" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_s8nmn")
+[node name="StartMenuBg" type="Sprite2D" parent="Background"]
+position = Vector2(562, 348)
+scale = Vector2(1.1235, 1.18146)
+texture = ExtResource("2_lm8sm")
 
-[node name="placeholder prompt" type="RichTextLabel" parent="."]
-offset_left = 477.0
-offset_top = 26.0
-offset_right = 864.0
-offset_bottom = 216.0
-script = ExtResource("4_q4qg1")
+[node name="StartMenuBgStripes" type="Sprite2D" parent="Background"]
+position = Vector2(564, 349)
+rotation = -0.261799
+scale = Vector2(1.11787, 1.11787)
+texture = ExtResource("3_oh6ju")
 
-[node name="SpeechToText" type="SpeechToText" parent="."]
-language_model = ExtResource("3_oxrpw")
-script = ExtResource("4_1flcq")
+[node name="AnimateBackground" type="AnimationPlayer" parent="Background"]
+libraries = {
+"": SubResource("AnimationLibrary_6fppn")
+}
 
-[node name="Recorder2" type="AudioStreamPlayer2D" parent="."]
-stream = SubResource("AudioStreamMicrophone_gmuvy")
+[node name="StartMenuPrompt" type="Label" parent="Background"]
+layout_mode = 0
+offset_left = 421.0
+offset_top = 424.0
+offset_right = 676.0
+offset_bottom = 464.0
+text = "Say PLAY to begin!"
+label_settings = SubResource("LabelSettings_3a4f0")
+
+[node name="StartMenuLogo" type="Sprite2D" parent="Background"]
+position = Vector2(572, 227)
+texture = ExtResource("3_eurcr")
+
+[node name="Transcription" type="Node2D" parent="."]
+script = ExtResource("4_auivn")
+timeoutInMS = 11000
+noChangeTimeoutInMS = 10000
+continuousRecognition = true
+
+[node name="Record" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamMicrophone_agq7j")
 autoplay = true
-bus = &"Record2"
-script = ExtResource("7_sfr3r")
+bus = &"Record"
 
-[node name="TextEdit" type="TextEdit" parent="."]
-offset_left = 536.0
-offset_top = 120.0
-offset_right = 707.0
-offset_bottom = 197.0
-text = "Horse
-"
+[node name="SuccessSoundPlayer" type="AudioStreamPlayer2D" parent="."]
+
+[node name="PartialResultLabel" type="Label" parent="."]
+visible = false
+offset_left = 44.0
+offset_top = 23.0
+offset_right = 139.0
+offset_bottom = 46.0
+text = "starting text"
+
+[node name="DebugOutputLabel" type="Label" parent="."]
+visible = false
+offset_left = 8.0
+offset_top = 566.0
+offset_right = 1144.0
+offset_bottom = 743.0
+
+[node name="MainWindow" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = -2.0
+offset_right = 1153.0
+offset_bottom = 646.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="perms" from="." to="Record" method="_on_game_perms"]
+[connection signal="OnFinalResult" from="Transcription" to="." method="_on_test_script_on_final_result"]
+[connection signal="OnPartialResult" from="Transcription" to="." method="_on_test_script_on_partial_result"]

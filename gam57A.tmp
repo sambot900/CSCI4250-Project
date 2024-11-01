@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://ci8wwqft2lfdw"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_esewu"]
+[ext_resource type="Texture2D" uid="uid://cwuf56spr8kp5" path="res://Assets/StartMenu_bg.png" id="2_hkn8r"]
+[ext_resource type="Texture2D" uid="uid://4x52xebnxplf" path="res://Assets/StartMenu_logo.png" id="3_eurcr"]
+[ext_resource type="Script" path="res://scripts/SpeechRecognizer.cs" id="4_auivn"]
+[ext_resource type="Script" path="res://recorder.gd" id="5_f3gfc"]
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_agq7j"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_esewu")
+
+[node name="StartMenuBg" type="Sprite2D" parent="."]
+position = Vector2(591, 321.5)
+scale = Vector2(1.16667, 1.22685)
+texture = ExtResource("2_hkn8r")
+
+[node name="StartMenuLogo" type="Sprite2D" parent="."]
+position = Vector2(571, 226)
+texture = ExtResource("3_eurcr")
+
+[node name="TestScript" type="Node2D" parent="."]
+script = ExtResource("4_auivn")
+
+[node name="Recorder" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamMicrophone_agq7j")
+autoplay = true
+bus = &"Recorder"
+script = ExtResource("5_f3gfc")
+
+[connection signal="OnFinalResult" from="TestScript" to="." method="_on_test_script_on_final_result"]
+[connection signal="OnPartialResult" from="TestScript" to="." method="_on_test_script_on_partial_result"]

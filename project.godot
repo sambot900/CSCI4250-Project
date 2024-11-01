@@ -10,13 +10,14 @@ config_version=5
 
 [application]
 
-config/name="CSCI4250 Project"
-run/main_scene="res://StartMenu.tscn"
-config/features=PackedStringArray("4.2", "Mobile")
+config/name="Animal Scramble"
+run/main_scene="res://game.tscn"
+config/features=PackedStringArray("4.3", "C#", "Mobile")
 config/icon="res://icon.svg"
 
 [audio]
 
+buses/default_bus_layout="res://default_bus_layout2.tres"
 driver/enable_input=true
 
 [display]
@@ -24,9 +25,9 @@ driver/enable_input=true
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
-[input_devices]
+[dotnet]
 
-pointing/emulate_touch_from_mouse=true
+project/assembly_name="net test"
 
 [rendering]
 
