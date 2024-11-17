@@ -1,8 +1,9 @@
-[gd_scene load_steps=58 format=3 uid="uid://ci8wwqft2lfdw"]
+[gd_scene load_steps=62 format=3 uid="uid://ci8wwqft2lfdw"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_esewu"]
 [ext_resource type="Script" path="res://background.gd" id="2_jqo2s"]
 [ext_resource type="Texture2D" uid="uid://df4feesyd6lx6" path="res://Assets/Background/stripes.png" id="3_oh6ju"]
+[ext_resource type="Texture2D" uid="uid://yfung3gechuw" path="res://Assets/Round_bg_shadow.png" id="4_0vwtb"]
 [ext_resource type="Script" path="res://scripts/SpeechRecognizer.cs" id="4_auivn"]
 [ext_resource type="Texture2D" uid="uid://cwuf56spr8kp5" path="res://Assets/StartMenu_bg.png" id="4_xgl57"]
 [ext_resource type="Texture2D" uid="uid://bi5m8luy20vsd" path="res://Assets/UI/prompt_play_red.png" id="5_fybvv"]
@@ -18,6 +19,8 @@
 [ext_resource type="Texture2D" uid="uid://1wcsuaemxh1n" path="res://Assets/UI/menu_logo_white_back.png" id="12_uhnsl"]
 [ext_resource type="Script" path="res://timer.gd" id="13_pwrch"]
 [ext_resource type="Texture2D" uid="uid://dwyyhstwcmjwn" path="res://Assets/UI/MenuImages.png" id="14_uacxu"]
+[ext_resource type="AudioStream" uid="uid://c0inaeuo1ibju" path="res://Audio/Effects/Atmosphere.mp3" id="19_d1wv0"]
+[ext_resource type="AudioStream" uid="uid://2mclg5l1u07g" path="res://Audio/Effects/CountDownBeep.mp3" id="20_tok48"]
 
 [sub_resource type="Animation" id="Animation_lbdhn"]
 length = 0.001
@@ -193,6 +196,30 @@ tracks/4/keys = {
 "update": 1,
 "values": [ExtResource("5_oefjy")]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Audio/Effects/CountDownSoundPlayer:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../Audio/Effects/AtmosphereSoundPlayer:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_kuqv4"]
 resource_name = "bg"
@@ -284,6 +311,30 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [null, ExtResource("5_oefjy"), ExtResource("6_pgnan"), ExtResource("7_x4n2b"), null]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Audio/Effects/CountDownSoundPlayer:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.633333, 1.66667, 2.63333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [false, true, true, true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../Audio/Effects/AtmosphereSoundPlayer:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6fppn"]
@@ -517,30 +568,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../Audio/Music/Noise:volume_db")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [-80.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../Audio/Music/Noise:playing")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_45dqa"]
 resource_name = "fade_in"
@@ -590,30 +617,6 @@ tracks/1/path = NodePath("BlackScreen:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../Audio/Music/Noise:volume_db")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-80.0, 5.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../Audio/Music/Noise:playing")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -1140,6 +1143,8 @@ fill = 1
 fill_from = Vector2(0.504274, 0.42735)
 fill_to = Vector2(0.478632, 0.273504)
 
+[sub_resource type="Theme" id="Theme_r2kxd"]
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_esewu")
 
@@ -1175,6 +1180,9 @@ z_index = 10
 position = Vector2(-859.975, 600)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("14_uacxu")
+
+[node name="RoundBg" type="Sprite2D" parent="Background"]
+texture = ExtResource("4_0vwtb")
 
 [node name="StartMenuBg" type="Sprite2D" parent="Background"]
 position = Vector2(1544, -378)
@@ -1390,9 +1398,7 @@ texture = SubResource("GradientTexture2D_6swow")
 [node name="MenuMusic" type="AudioStreamPlayer2D" parent="Audio/Music"]
 
 [node name="RoundMusic" type="AudioStreamPlayer2D" parent="Audio/Music"]
-
-[node name="Noise" type="AudioStreamPlayer2D" parent="Audio/Music"]
-volume_db = -80.0
+stream = ExtResource("19_d1wv0")
 
 [node name="Effects" type="Node2D" parent="Audio"]
 
@@ -1404,9 +1410,25 @@ volume_db = -80.0
 
 [node name="ModeSelectSoundPlayer" type="AudioStreamPlayer2D" parent="Audio/Effects"]
 
+[node name="DrumRollSoundPlayer" type="AudioStreamPlayer2D" parent="Audio/Effects"]
+volume_db = 12.0
+
+[node name="CountDownSoundPlayer" type="AudioStreamPlayer2D" parent="Audio/Effects"]
+stream = ExtResource("20_tok48")
+volume_db = -10.0
+
+[node name="AtmosphereSoundPlayer" type="AudioStreamPlayer2D" parent="Audio/Effects"]
+stream = ExtResource("19_d1wv0")
+volume_db = 12.0
+
 [node name="MicTimer" type="Timer" parent="."]
 wait_time = 8.0
 script = ExtResource("13_pwrch")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_r2kxd")
 
 [connection signal="animation_finished" from="Background/AnimateMenuImages/AnimateMenuImagesFadeOut" to="." method="_on_animate_menu_images_fade_out_animation_finished"]
 [connection signal="animation_finished" from="Background/AnimateBackground" to="." method="_on_animate_background_animation_finished"]
@@ -1417,5 +1439,5 @@ script = ExtResource("13_pwrch")
 [connection signal="OnFinalResult" from="Transcription" to="." method="_on_test_script_on_final_result"]
 [connection signal="OnPartialResult" from="Transcription" to="." method="_on_test_script_on_partial_result"]
 [connection signal="animation_finished" from="Star/AnimateStar" to="." method="_on_animation_player_animation_finished"]
-[connection signal="timeout" from="MicTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="MicTimer" to="." method="_on_mic_timer_timeout"]
+[connection signal="timeout" from="MicTimer" to="." method="_on_timer_timeout"]

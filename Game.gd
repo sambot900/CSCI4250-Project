@@ -3,10 +3,11 @@ extends Node2D
 #region Globals
 ######################################################################
 
+var guess_label
 var speech_recognizer
 var partialResultLabel
-var play_list = ["play", "hay", "pray", "why", "boy", "by"]
-var answer_list = ["play", "hay", "pray", "why", "boy", "by"]
+var play_list = ["play", "hay", "pray", "why", "boy", "by", "i"]
+var answer_list = ["play", "hay", "pray", "why", "boy", "by", "i"]
 var image_path
 var control_node_ref: Control = null
 var visual_prompt_dictionary = {}
@@ -36,9 +37,19 @@ func _ready():
 	
 	# Fill up our dictionaries with prompts (audio and visual)
 	visual_prompt_dictionary["horse"] = [["horse","force", "course", "or", "source"], "res://Assets/Prompts/horse.png"]
-	visual_prompt_dictionary["rabbit"] = [["rabbit", "reset"], "res://Assets/Prompts/rabbit.png"]
+	visual_prompt_dictionary["rabbit"] = [["rabbit", "reset", "radish", "rabbid"], "res://Assets/Prompts/rabbit.png"]
 	visual_prompt_dictionary["dog"] = [["dog", "hog", "dob", "da"], "res://Assets/Prompts/dog.png"]
-	
+	visual_prompt_dictionary["cat"] = [["cat", "ka", "kurt", "can", "get", "cap"], "res://Assets/Prompts/cat.png"]
+	visual_prompt_dictionary["lion"] = [["lion", "i", "i'm"], "res://Assets/Prompts/lion.png"]
+	visual_prompt_dictionary["panda"] = [["panda", "handa", "the"], "res://Assets/Prompts/panda.png"]
+	visual_prompt_dictionary["cow"] = [["cow", "cao", "go"], "res://Assets/Prompts/cow.png"]
+	visual_prompt_dictionary["elephant"] = [["elephant"], "res://Assets/Prompts/elephant.png"]
+	visual_prompt_dictionary["giraffe"] = [["giraffe"], "res://Assets/Prompts/giraffe.png"]
+	visual_prompt_dictionary["penguin"] = [["penguin"], "res://Assets/Prompts/penguin.png"]
+	visual_prompt_dictionary["eagle"] = [["eagle"], "res://Assets/Prompts/eagle.png"]
+	visual_prompt_dictionary["alligator"] = [["alligator"], "res://Assets/Prompts/alligator.png"]
+	visual_prompt_dictionary["shark"] = [["shark"], "res://Assets/Prompts/shark.png"]
+
 	# Fill up our list of unsolved prompts with animals
 	refill_left_to_solve()
 	
@@ -237,15 +248,36 @@ func _on_animate_background_animation_finished(anim_name: StringName) -> void:
 	
 	# Round countdown is complete
 	if anim_name == "round_countdown":
-		_stop_noise()
 		_start_round_music()
+		$MicTimer.stop()
 		_next_prompt()
+
+func _fail_prompt():
+	if answer_list[0] == null:
+		_next_prompt()
+	else:
+		speech_recognizer.StopSpeechRecognition()
+		_fail_sound()
+		
+		var answer = ""
+		var length = answer_list[0].length() - 1
+		var count = 0
+		for letter in answer_list[0]:
+			answer = answer + letter
+			if count < length:
+				answer = answer + "  "
+			count += 1
+		# Display answer to player
+		guess_label.text = answer.to_upper()
+		await sleep(2)
+		
+		_next_prompt()
+		#$animation.play("fail_prompt")
 
 # Player fails prompt (runs out of time)
 func _on_timer_animation_finished(anim_name: StringName) -> void:
-	speech_recognizer.StopSpeechRecognition()
-	_fail_sound()
-	_next_prompt()
+	_fail_prompt()
+	
 #endregion
 
 # This populates prompt graphics during a round
@@ -281,13 +313,14 @@ func create_centered_control_node():
 
 	# Label setup
 	# This instantiates the prompt guess/answer blank
-	var guess_label = Label.new()
+	guess_label = Label.new()
 	
 	answer_string = answer_list[0]
 	var hint_string = generate_hint_string(answer_string)
 	
 	guess_label.text = hint_string
 	guess_label.add_theme_font_size_override("font_size", 72)
+	guess_label.add_theme_color_override("font_color", Color(0, 0, 0))
 	guess_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 
@@ -413,7 +446,7 @@ func generate_hint_string(answer: String):
 	#print("final_hint: ",final_hint)
 	#print("hint_string_index: ",hint_string_index)
 	
-	return final_hint.substr(0, final_hint.length() - 2)
+	return final_hint.substr(0, final_hint.length() - 2).to_upper()
 
 # This clears the screen of a prompt so that we can add a new one
 func remove_control_node():
@@ -492,6 +525,12 @@ func _mode_select_sound():
 	audio_player.stream = sound
 	audio_player.play()
 	
+func _atmosphere():
+	var audio_player = $Audio/Effects/AtmosphereSoundPlayer
+	var sound = load("res://Audio/Effects/Atmosphere.mp3")
+	audio_player.stream = sound
+	audio_player.play()
+	
 # Music
 #####################
 func _start_menu_music():
@@ -534,18 +573,6 @@ func _low_round_music():
 func _high_round_music():
 	var audio_player = $Audio/Music/RoundMusic
 	audio_player.set_volume_db(0)
-	
-func _start_noise():
-	var audio_player = $Audio/Music/Noise
-	var sound = load("res://Audio/Music/atmospheric_noise.mp3")
-	audio_player.stream = sound
-	if sound is AudioStream:
-		sound.loop = true
-	audio_player.play()
-	
-func _stop_noise():
-	var audio_player = $Audio/Music/RoundMusic
-	audio_player.stop()
 #endregion
 
 
