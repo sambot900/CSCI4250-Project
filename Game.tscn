@@ -1,14 +1,19 @@
-[gd_scene load_steps=62 format=3 uid="uid://ci8wwqft2lfdw"]
+[gd_scene load_steps=73 format=3 uid="uid://ci8wwqft2lfdw"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_esewu"]
 [ext_resource type="Script" path="res://background.gd" id="2_jqo2s"]
+[ext_resource type="Texture2D" uid="uid://ddqxsurn0hori" path="res://Assets/UI/mode_card_1.png" id="3_7vb6s"]
 [ext_resource type="Texture2D" uid="uid://df4feesyd6lx6" path="res://Assets/Background/stripes.png" id="3_oh6ju"]
 [ext_resource type="Texture2D" uid="uid://yfung3gechuw" path="res://Assets/Round_bg_shadow.png" id="4_0vwtb"]
 [ext_resource type="Script" path="res://scripts/SpeechRecognizer.cs" id="4_auivn"]
+[ext_resource type="Texture2D" uid="uid://bv2up8ikr374n" path="res://Assets/UI/mode_card_2.png" id="4_l0457"]
 [ext_resource type="Texture2D" uid="uid://cwuf56spr8kp5" path="res://Assets/StartMenu_bg.png" id="4_xgl57"]
 [ext_resource type="Texture2D" uid="uid://bi5m8luy20vsd" path="res://Assets/UI/prompt_play_red.png" id="5_fybvv"]
 [ext_resource type="Texture2D" uid="uid://duaftgnjd4esy" path="res://Assets/UI/countdown_3.png" id="5_oefjy"]
+[ext_resource type="Texture2D" uid="uid://bhr3tqhook7e7" path="res://Assets/UI/mode_card_3.png" id="5_xyl4b"]
 [ext_resource type="Texture2D" uid="uid://yxve0jiejims" path="res://Assets/UI/prompt_play_white.png" id="6_8q4gi"]
+[ext_resource type="Texture2D" uid="uid://bwir5w1exufkj" path="res://Assets/UI/card_template.png" id="6_e6cbq"]
+[ext_resource type="Texture2D" uid="uid://bn08wcx8u45ol" path="res://Assets/StartMenu_bg_shadow.png" id="6_ms3ua"]
 [ext_resource type="Texture2D" uid="uid://dvachq1xws3rc" path="res://Assets/UI/countdown_2.png" id="6_pgnan"]
 [ext_resource type="Texture2D" uid="uid://d0drbil12fvac" path="res://Assets/UI/star.png" id="7_tstat"]
 [ext_resource type="Texture2D" uid="uid://dbje27tmrw3o" path="res://Assets/UI/countdown_1.png" id="7_x4n2b"]
@@ -21,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://dwyyhstwcmjwn" path="res://Assets/UI/MenuImages.png" id="14_uacxu"]
 [ext_resource type="AudioStream" uid="uid://c0inaeuo1ibju" path="res://Audio/Effects/Atmosphere.mp3" id="19_d1wv0"]
 [ext_resource type="AudioStream" uid="uid://2mclg5l1u07g" path="res://Audio/Effects/CountDownBeep.mp3" id="20_tok48"]
+[ext_resource type="AudioStream" uid="uid://q3p203gqrnlu" path="res://Audio/Effects/CardSelect.mp3" id="25_q18aq"]
 
 [sub_resource type="Animation" id="Animation_lbdhn"]
 length = 0.001
@@ -95,6 +101,401 @@ tracks/0/keys = {
 _data = {
 "RESET": SubResource("Animation_hgaxh"),
 "menu_images_fade_out": SubResource("Animation_40w3n")
+}
+
+[sub_resource type="Animation" id="Animation_l1ftf"]
+resource_name = "cards_1"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cards/CardOne:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(221, 345), Vector2(575, 345)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cards/CardTwo:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(575, 339), Vector2(814, 993)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cards/CardTwo:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.44346]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Cards/CardThree:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(930, 346), Vector2(1373, 822)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cards/CardThree:rotation")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.7105]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cards/CardOne:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.266667, 0.533333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5), Vector2(1.2, 1.2)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Cards/CardOne:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_4tg7g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cards/CardOne:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(221, 345)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cards/CardTwo:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(575, 339)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cards/CardTwo:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Cards/CardThree:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(930, 346)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cards/CardThree:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cards/CardOne:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Cards/CardTwo:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Cards/CardOne:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Cards/CardThree:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_kd37a"]
+resource_name = "cards_2"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cards/CardOne:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(221, 345), Vector2(-178, 954)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cards/CardThree:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(930, 346), Vector2(1373, 822)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cards/CardThree:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.7105]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Cards/CardTwo:scale")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.266667, 0.533333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5), Vector2(1.2, 1.2)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cards/CardOne:rotation")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -2.14675]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cards/CardTwo:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Cards/CardTwo:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(576, 339), Vector2(575, 339)]
+}
+
+[sub_resource type="Animation" id="Animation_ymq5t"]
+resource_name = "cards_3"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cards/CardOne:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(221, 345), Vector2(-55, 969)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cards/CardTwo:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(575, 339), Vector2(814, 993)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cards/CardTwo:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.44346]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Cards/CardThree:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(930, 346), Vector2(575, 346)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cards/CardThree:rotation")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cards/CardOne:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Cards/CardOne:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.533333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -2.7105]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Cards/CardThree:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.266667, 0.533333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5), Vector2(1.2, 1.2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kkx2e"]
+_data = {
+"RESET": SubResource("Animation_4tg7g"),
+"cards_1": SubResource("Animation_l1ftf"),
+"cards_2": SubResource("Animation_kd37a"),
+"cards_3": SubResource("Animation_ymq5t")
 }
 
 [sub_resource type="Animation" id="Animation_aiopr"]
@@ -1164,6 +1565,30 @@ grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("2_jqo2s")
 
+[node name="Cards" type="Node2D" parent="Background"]
+visible = false
+
+[node name="CardOne" type="Sprite2D" parent="Background/Cards"]
+z_index = 10
+position = Vector2(221, 345)
+texture = ExtResource("3_7vb6s")
+
+[node name="CardTwo" type="Sprite2D" parent="Background/Cards"]
+z_index = 10
+position = Vector2(575, 339)
+texture = ExtResource("4_l0457")
+
+[node name="CardThree" type="Sprite2D" parent="Background/Cards"]
+z_index = 10
+position = Vector2(930, 346)
+texture = ExtResource("5_xyl4b")
+
+[node name="cardtemplate" type="Sprite2D" parent="Background/Cards"]
+visible = false
+z_index = 100
+position = Vector2(577, 325)
+texture = ExtResource("6_e6cbq")
+
 [node name="AnimateMenuImages" type="AnimationPlayer" parent="Background"]
 libraries = {
 "": SubResource("AnimationLibrary_81lkn")
@@ -1175,13 +1600,22 @@ libraries = {
 "": SubResource("AnimationLibrary_bwryu")
 }
 
+[node name="AnimateCards" type="AnimationPlayer" parent="Background"]
+libraries = {
+"": SubResource("AnimationLibrary_kkx2e")
+}
+
 [node name="MenuImages" type="Sprite2D" parent="Background"]
 z_index = 10
 position = Vector2(-859.975, 600)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("14_uacxu")
 
-[node name="RoundBg" type="Sprite2D" parent="Background"]
+[node name="RoundBgShadow" type="Sprite2D" parent="Background"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.705882)
+z_index = 1
+position = Vector2(577, 325)
 texture = ExtResource("4_0vwtb")
 
 [node name="StartMenuBg" type="Sprite2D" parent="Background"]
@@ -1189,6 +1623,12 @@ position = Vector2(1544, -378)
 scale = Vector2(1.1235, 1.18146)
 texture = ExtResource("4_xgl57")
 offset = Vector2(-874.054, 614.494)
+
+[node name="StartMenuBgShadow" type="Sprite2D" parent="Background"]
+self_modulate = Color(1, 1, 1, 0.54902)
+z_index = 1
+position = Vector2(577, 325)
+texture = ExtResource("6_ms3ua")
 
 [node name="StartMenuPrompt" type="Sprite2D" parent="Background"]
 position = Vector2(557, 477)
@@ -1311,6 +1751,7 @@ offset_right = 1144.0
 offset_bottom = 743.0
 
 [node name="Score" type="Control" parent="."]
+z_index = 10
 layout_mode = 3
 anchors_preset = 0
 offset_left = -3.0
@@ -1421,6 +1862,9 @@ volume_db = -10.0
 stream = ExtResource("19_d1wv0")
 volume_db = 12.0
 
+[node name="CardSelectSoundPlayer" type="AudioStreamPlayer2D" parent="Audio/Effects"]
+stream = ExtResource("25_q18aq")
+
 [node name="MicTimer" type="Timer" parent="."]
 wait_time = 8.0
 script = ExtResource("13_pwrch")
@@ -1431,6 +1875,7 @@ offset_bottom = 40.0
 theme = SubResource("Theme_r2kxd")
 
 [connection signal="animation_finished" from="Background/AnimateMenuImages/AnimateMenuImagesFadeOut" to="." method="_on_animate_menu_images_fade_out_animation_finished"]
+[connection signal="animation_finished" from="Background/AnimateCards" to="." method="_on_animate_cards_animation_finished"]
 [connection signal="animation_finished" from="Background/AnimateBackground" to="." method="_on_animate_background_animation_finished"]
 [connection signal="animation_finished" from="Background/ProceedPastStart" to="." method="_on_proceed_past_start_animation_finished"]
 [connection signal="animation_finished" from="Background/FadeOut" to="." method="_on_fade_out_animation_finished"]

@@ -34,6 +34,11 @@ func _ready():
 	$Background/BlackScreen.visible = false
 	$Star.visible = false
 	$Score.visible = false
+	$Background/RoundBgShadow.visible = false
+	$Background/Cards.visible = false
+	$Background/Cards/CardOne.visible = false
+	$Background/Cards/CardTwo.visible = false
+	$Background/Cards/CardThree.visible = false
 	
 	# Fill up our dictionaries with prompts (audio and visual)
 	visual_prompt_dictionary["horse"] = [["horse","force", "course", "or", "source"], "res://Assets/Prompts/horse.png"]
@@ -186,6 +191,7 @@ func _on_test_script_on_partial_result(partialResults: String) -> void:
 
 func guess_success(answer: String):
 	if answer in play_list:
+		$MicTimer.stop()
 		$Background/Logo/AnimateLogo.stop()
 		_low_menu_music()
 		_start_sound()
@@ -193,15 +199,25 @@ func guess_success(answer: String):
 		$Background/ProceedPastStart.play("proceed_past_start")
 		$Background/PromptBlink.stop()
 	elif gamemode_select:
-		if gamemode == "picture_mode":
-			gamemode_select = false
-		elif gamemode == "sound_mode":
-			gamemode_select = false
-		elif gamemode == "mixed_mode":
-			gamemode_select = false
+		$MicTimer.stop()
+		$MicTimer.start()
 		_mode_select_sound()
 		remove_gamemode_selection()
-		$Background/FadeOut.play("fade_out")
+		$Background/Cards.visible = true
+		$Background/Cards/CardOne.visible = true
+		$Background/Cards/CardTwo.visible = true
+		$Background/Cards/CardThree.visible = true
+		if gamemode == "picture_mode":
+			gamemode_select = false
+			$Background/AnimateCards.play("cards_1")
+		elif gamemode == "sound_mode":
+			gamemode_select = false
+			$Background/AnimateCards.play("cards_2")
+		elif gamemode == "mixed_mode":
+			gamemode_select = false
+			$Background/AnimateCards.play("cards_3")
+			
+		
 	else:
 		_success_sound()
 		star_animation_in_progress = true
@@ -232,12 +248,20 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	_coin_sound()
 	_next_prompt()
 
+func _on_animate_cards_animation_finished(anim_name: StringName) -> void:
+	$Background/FadeOut.play("fade_out")
+
 # Black fade "out" is finished
 func _on_fade_out_animation_finished(anim_name: StringName) -> void:
 	_stop_menu_music()
 	$Score/Star.visible = true
 	$Score/StarScoreLabel.visible = true
 	$Background/FadeIn.play("fade_in_sound")
+	$Background/RoundBgShadow.visible = true
+	$Background/Cards.visible = false
+	$Background/Cards/CardOne.visible = false
+	$Background/Cards/CardTwo.visible = false
+	$Background/Cards/CardThree.visible = false
 
 # Black fade "in" is finished
 func _on_fade_in_animation_finished(anim_name: StringName) -> void:
@@ -320,7 +344,7 @@ func create_centered_control_node():
 	
 	guess_label.text = hint_string
 	guess_label.add_theme_font_size_override("font_size", 72)
-	guess_label.add_theme_color_override("font_color", Color(0, 0, 0))
+	guess_label.add_theme_color_override("font_color", Color(255, 255, 255))
 	guess_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 
