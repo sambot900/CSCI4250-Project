@@ -1726,7 +1726,7 @@ texture = ExtResource("12_uhnsl")
 
 [node name="Transcription" type="Node2D" parent="."]
 script = ExtResource("4_auivn")
-timeoutInMS = 11000
+timeoutInMS = 14000
 noChangeTimeoutInMS = 10000
 continuousRecognition = true
 
