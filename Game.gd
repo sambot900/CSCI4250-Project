@@ -16,7 +16,7 @@ var left_to_solve_array = []
 var guess_string = ""
 var answer_string = ""
 var score = 0
-var gamemode_list = [["pictures", "pitchers"], ["sounds", "found"], ["mixed","next"]]
+var gamemode_list = [["one", "won", "young", "pictures", "pitchers"], ["two", "to", "too", "do", "sounds", "found"], ["three", "both", "oath", "next"]]
 var gamemode = ""
 var gamemode_select = false
 var star_animation_in_progress = false
@@ -202,6 +202,7 @@ func guess_success(answer: String):
 		$MicTimer.stop()
 		$MicTimer.start()
 		_mode_select_sound()
+		_card_select_sound()
 		remove_gamemode_selection()
 		$Background/Cards.visible = true
 		$Background/Cards/CardOne.visible = true
@@ -219,6 +220,7 @@ func guess_success(answer: String):
 			
 		
 	else:
+		set_answer_label_text()
 		_success_sound()
 		star_animation_in_progress = true
 		$Background/Timer.stop()
@@ -276,6 +278,20 @@ func _on_animate_background_animation_finished(anim_name: StringName) -> void:
 		$MicTimer.stop()
 		_next_prompt()
 
+func set_answer_label_text():
+	if answer_list[0] == null:
+		answer_list[0] == "get_answer_label_text(): answer_title[0] is null"
+	var answer = ""
+	var length = answer_list[0].length() - 1
+	var count = 0
+	for letter in answer_list[0]:
+		answer = answer + letter
+		if count < length:
+			answer = answer + "  "
+		count += 1
+	# Display answer to player
+	guess_label.text = answer.to_upper()
+
 func _fail_prompt():
 	if answer_list[0] == null:
 		_next_prompt()
@@ -283,16 +299,7 @@ func _fail_prompt():
 		speech_recognizer.StopSpeechRecognition()
 		_fail_sound()
 		
-		var answer = ""
-		var length = answer_list[0].length() - 1
-		var count = 0
-		for letter in answer_list[0]:
-			answer = answer + letter
-			if count < length:
-				answer = answer + "  "
-			count += 1
-		# Display answer to player
-		guess_label.text = answer.to_upper()
+		set_answer_label_text()
 		await sleep(2)
 		
 		_next_prompt()
@@ -502,7 +509,6 @@ func _game_mode_selection():
 	create_gamemode_selection()
 	speech_recognizer.StartSpeechRecognition()
 
-
 # Wait x seconds
 func sleep(seconds: float) -> void:
 	var timer = Timer.new()
@@ -549,9 +555,15 @@ func _mode_select_sound():
 	audio_player.stream = sound
 	audio_player.play()
 	
-func _atmosphere():
+func _atmosphere_sound():
 	var audio_player = $Audio/Effects/AtmosphereSoundPlayer
 	var sound = load("res://Audio/Effects/Atmosphere.mp3")
+	audio_player.stream = sound
+	audio_player.play()
+	
+func _card_select_sound():
+	var audio_player = $Audio/Effects/CardSelectSoundPlayer
+	var sound = load("res://Audio/Effects/CardSelect.mp3")
 	audio_player.stream = sound
 	audio_player.play()
 	
@@ -598,7 +610,6 @@ func _high_round_music():
 	var audio_player = $Audio/Music/RoundMusic
 	audio_player.set_volume_db(0)
 #endregion
-
 
 
 func _on_mic_timer_timeout() -> void:
