@@ -53,7 +53,28 @@ func _ready():
 	visual_prompt_dictionary["penguin"] = [["penguin"], "res://Assets/Prompts/penguin.png"]
 	visual_prompt_dictionary["eagle"] = [["eagle"], "res://Assets/Prompts/eagle.png"]
 	visual_prompt_dictionary["alligator"] = [["alligator"], "res://Assets/Prompts/alligator.png"]
-	visual_prompt_dictionary["shark"] = [["shark"], "res://Assets/Prompts/shark.png"]
+	visual_prompt_dictionary["shark"] = [["shark", "shak"], "res://Assets/Prompts/shark.png"]
+	visual_prompt_dictionary["puppies"] = [["puppies", "puppy", "dog", "baby dog"], "res://Assets/Prompts/shark.jpg"]
+	visual_prompt_dictionary["tiger"] = [["tiger", "tiga"], "res://Assets/Prompts/tiger.jpg"]
+	visual_prompt_dictionary["bear"] = [["bear", "hear", "ear", "air"], "res://Assets/Prompts/bear.jpg"]
+	visual_prompt_dictionary["koala"] = [["koala"], "res://Assets/Prompts/koala.jpg"]
+	visual_prompt_dictionary["kangaroo"] = [["kangaroo", "kangoroo"], "res://Assets/Prompts/kangaroo.jpg"]
+	visual_prompt_dictionary["dolphin"] = [["dolphin", "dophin"], "res://Assets/Prompts/dolphin.jpg"]
+	visual_prompt_dictionary["turtle"] = [["turtle", "tutle"], "res://Assets/Prompts/turtle.jpg"]
+	visual_prompt_dictionary["monkey"] = [["monkey", "momkey", "mokey"], "res://Assets/Prompts/monkey.jpg"]
+	visual_prompt_dictionary["snake"] = [["snake", "shake"], "res://Assets/Prompts/snake.jpg"]
+	visual_prompt_dictionary["butterfly"] = [["butterfly"], "res://Assets/Prompts/butterfly.jpg"]
+	visual_prompt_dictionary["frog"] = [["frog", "fog"], "res://Assets/Prompts/frog.jpg"]
+	visual_prompt_dictionary["pig"] = [["pig"], "res://Assets/Prompts/pig.jpg"]
+	visual_prompt_dictionary["wolf"] = [["wolf", "wof"], "res://Assets/Prompts/wolf.jpg"]
+
+
+
+
+
+
+
+
 
 	# Fill up our list of unsolved prompts with animals
 	refill_left_to_solve()
