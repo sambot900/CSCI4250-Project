@@ -6,13 +6,15 @@ extends Node2D
 var guess_label
 var speech_recognizer
 var partialResultLabel
-var play_list = ["play", "hay", "pray", "why", "boy", "by", "i"]
-var answer_list = ["play", "hay", "pray", "why", "boy", "by", "i"]
-var image_path
+var play_list = ["play", "hay", "pray", "why", "boy", "by", "i", "hi"]
+var answer_list = ["test"]
+var prompt_path
+var prompt_type
 var control_node_ref: Control = null
 var visual_prompt_dictionary = {}
 var audio_prompt_dictionary = {}
-var left_to_solve_array = []
+var left_to_solve_array_visual = []
+var left_to_solve_array_audio = []
 var guess_string = ""
 var answer_string = ""
 var score = 0
@@ -20,10 +22,17 @@ var gamemode_list = [["one", "won", "young", "pictures", "pitchers"], ["two", "t
 var gamemode = ""
 var gamemode_select = false
 var star_animation_in_progress = false
+var music1
+var startmenu = true
 #endregion
 
+@onready var MusicButton = $Background/MusicButton/MusicStatus
+@onready var ExitButton = $Background/ExitButton
+
+
 func _ready():
-	
+	music1 = true
+	#MusicButton.texture = load("res://Assets/UI/music_on.png")
 	# init asset visibility
 	$Background/Control/CountNumber.visible = false
 	$Background/StartMenuPrompt.visible = true
@@ -41,22 +50,34 @@ func _ready():
 	$Background/Cards/CardThree.visible = false
 	
 	# Fill up our dictionaries with prompts (audio and visual)
-	visual_prompt_dictionary["horse"] = [["horse","force", "course", "or", "source"], "res://Assets/Prompts/horse.png"]
-	visual_prompt_dictionary["rabbit"] = [["rabbit", "reset", "radish", "rabbid"], "res://Assets/Prompts/rabbit.png"]
+	visual_prompt_dictionary["horse"] = [["horse","force", "course", "or", "source", "rouse"], "res://Assets/Prompts/horse.png"]
+	visual_prompt_dictionary["rabbit"] = [["rabbit", "reset", "radish", "rabbid", "labbit"], "res://Assets/Prompts/rabbit.png"]
 	visual_prompt_dictionary["dog"] = [["dog", "hog", "dob", "da"], "res://Assets/Prompts/dog.png"]
-	visual_prompt_dictionary["cat"] = [["cat", "ka", "kurt", "can", "get", "cap"], "res://Assets/Prompts/cat.png"]
-	visual_prompt_dictionary["lion"] = [["lion", "i", "i'm"], "res://Assets/Prompts/lion.png"]
-	visual_prompt_dictionary["panda"] = [["panda", "handa", "the"], "res://Assets/Prompts/panda.png"]
+	visual_prompt_dictionary["cat"] = [["cat", "ka", "kurt", "can", "get", "cap", "can't"], "res://Assets/Prompts/cat.png"]
+	visual_prompt_dictionary["lion"] = [["lion", "i", "i'm", "why", "liar", "light", "am"], "res://Assets/Prompts/lion.png"]
+	visual_prompt_dictionary["panda"] = [["panda", "handa", "the", "and"], "res://Assets/Prompts/panda.png"]
 	visual_prompt_dictionary["cow"] = [["cow", "cao", "go"], "res://Assets/Prompts/cow.png"]
-	visual_prompt_dictionary["elephant"] = [["elephant"], "res://Assets/Prompts/elephant.png"]
+	visual_prompt_dictionary["elephant"] = [["elephant", "elegant"], "res://Assets/Prompts/elephant.png"]
 	visual_prompt_dictionary["giraffe"] = [["giraffe"], "res://Assets/Prompts/giraffe.png"]
-	visual_prompt_dictionary["penguin"] = [["penguin"], "res://Assets/Prompts/penguin.png"]
-	visual_prompt_dictionary["eagle"] = [["eagle"], "res://Assets/Prompts/eagle.png"]
+	visual_prompt_dictionary["penguin"] = [["penguin", "anglin", "hander"], "res://Assets/Prompts/penguin.png"]
+	visual_prompt_dictionary["eagle"] = [["eagle", "go"], "res://Assets/Prompts/eagle.png"]
 	visual_prompt_dictionary["alligator"] = [["alligator"], "res://Assets/Prompts/alligator.png"]
 	visual_prompt_dictionary["shark"] = [["shark"], "res://Assets/Prompts/shark.png"]
+	
+	audio_prompt_dictionary["cat"] = [["cat", "ka", "kurt", "can", "get", "cap", "can't"], "res://Audio/Prompts/cat1.mp3"]
+	audio_prompt_dictionary["chicken"] = [["chicken"], "res://Audio/Prompts/chicken1.mp3"]
+	audio_prompt_dictionary["cow"] = [["cow", "cao", "go"], "res://Audio/Prompts/cow1.mp3"]
+	audio_prompt_dictionary["dog"] = [["dog", "hog", "dob", "da"], "res://Audio/Prompts/dog1.mp3"]
+	audio_prompt_dictionary["goat"] = [["goat", "go"], "res://Audio/Prompts/goat1.mp3"]
+	audio_prompt_dictionary["hawk"] = [["hawk"], "res://Audio/Prompts/hawk1.mp3"]
+	audio_prompt_dictionary["horse"] = [["horse","force", "course", "or", "source", "rouse"], "res://Audio/Prompts/horse1.mp3"]
+	audio_prompt_dictionary["monkey"] = [["monkey"], "res://Audio/Prompts/monkey1.mp3"]
+	audio_prompt_dictionary["owl"] = [["owl","our","will","al","oh","ow"], "res://Audio/Prompts/owl1.mp3"]
+	audio_prompt_dictionary["wolf"] = [["wolf","of"], "res://Audio/Prompts/wolf1.mp3"]
 
 	# Fill up our list of unsolved prompts with animals
-	refill_left_to_solve()
+	refill_left_to_solve_visual()
+	refill_left_to_solve_audio()
 	
 	# For our randint() method seed
 	randomize()
@@ -87,6 +108,15 @@ func _ready():
 
 	# Android: Microphone permission granted
 
+
+func load_texture(path: String) -> Texture2D:
+	var texture = load(path)
+	if texture is Texture2D:
+		return texture
+	else:
+		push_error("Failed to load texture: " + path)
+		return null
+
 func _on_permission_granted(permission_name):
 	if permission_name == "android.permission.RECORD_AUDIO":
 		print("Microphone permission granted.")
@@ -109,9 +139,15 @@ func _handle_permission_denied():
 
 #endregion
 
+func _on_exit_button_pressed() -> void:
+	get_tree().reload_current_scene()
+
 func _process(_delta):
 	# Label to display score is updated every tick
 	$Score/StarScoreLabel.text = str(score)
+	#if score > 4:
+		#get_tree().reload_current_scene()
+		#start_menu_play()
 
 # Connect with transcription script and the signals it emits
 # Start speech recognition
@@ -128,22 +164,41 @@ func _initialize_app():
 # If we solve all prompts, this ensures we don't end up in an infinite loop
 # by refilling our available prompts when they are exhausted (excluding the most
 # recent to prevent back-to-back prompts)
-func refill_left_to_solve():
+func refill_left_to_solve_visual():
 	for key in visual_prompt_dictionary.keys():
-		left_to_solve_array.append(key)
-	print("refill_left_to_solve: REFRESHED")
+		left_to_solve_array_visual.append(key)
+	print("refill_left_to_solve_visual: REFRESHED")
+	
+func refill_left_to_solve_audio():
+	for key in audio_prompt_dictionary.keys():
+		left_to_solve_array_audio.append(key)
 	
 # Get random prompt from unsolved prompts
 func get_random_prompt(dictionary: Dictionary, previous: String) -> Array:
-	left_to_solve_array.erase(previous)
-	if left_to_solve_array == []:
-		refill_left_to_solve()
-	left_to_solve_array.erase(previous)
 	var random_key
-	var keys = dictionary.keys()
-	random_key = keys[randi() % keys.size()]  # Select a random key
-	while random_key not in left_to_solve_array:
-		random_key = keys[randi() % keys.size()]
+	
+	
+	if dictionary == visual_prompt_dictionary:
+		left_to_solve_array_visual.erase(previous)
+		if left_to_solve_array_visual == []:
+			refill_left_to_solve_visual()
+		left_to_solve_array_visual.erase(previous)
+		var keys = dictionary.keys()
+		random_key = keys[randi() % keys.size()]  # Select a random key
+		while random_key not in left_to_solve_array_visual:
+			random_key = keys[randi() % keys.size()]
+		
+	elif dictionary == audio_prompt_dictionary:
+		left_to_solve_array_audio.erase(previous)
+		if left_to_solve_array_audio == []:
+			refill_left_to_solve_audio()
+		left_to_solve_array_audio.erase(previous)
+
+		var keys = dictionary.keys()
+		random_key = keys[randi() % keys.size()]  # Select a random key
+		while random_key not in left_to_solve_array_audio:
+			random_key = keys[randi() % keys.size()]
+		
 	return dictionary[random_key]  # Return the value of the random key
 
 # Not really using this with our continuous mic use.
@@ -183,22 +238,30 @@ func _on_test_script_on_partial_result(partialResults: String) -> void:
 				guess_success(last_word)
 		# Check correctness of guess
 		# If correct, move to next prompt
+		if last_word in play_list and startmenu:
+			speech_recognizer.StopSpeechRecognition()
+			guess_success(last_word)
 		if last_word in answer_list:
 			speech_recognizer.StopSpeechRecognition()
 			guess_success(last_word)
 	else:
 		print("Error parsing JSON: ", json.error_string)
 
-func guess_success(answer: String):
-	if answer in play_list:
-		$MicTimer.stop()
-		$Background/Logo/AnimateLogo.stop()
+func start_menu_play():
+	$MicTimer.stop()
+	$Background/Logo/AnimateLogo.stop()
+	if music1:
 		_low_menu_music()
-		_start_sound()
-		$Background/AnimateMenuImages/AnimateMenuImagesFadeOut.play("menu_images_fade_out")
-		$Background/ProceedPastStart.play("proceed_past_start")
-		$Background/PromptBlink.stop()
-	elif gamemode_select:
+	_start_sound()
+	$Background/AnimateMenuImages/AnimateMenuImagesFadeOut.play("menu_images_fade_out")
+	$Background/ProceedPastStart.play("proceed_past_start")
+	$Background/PromptBlink.stop()
+
+
+func guess_success(answer: String):
+	if answer in play_list and startmenu:
+		start_menu_play()
+	elif gamemode_select and answer not in play_list:
 		$MicTimer.stop()
 		$MicTimer.start()
 		_mode_select_sound()
@@ -220,17 +283,20 @@ func guess_success(answer: String):
 			
 		
 	else:
-		set_answer_label_text()
-		_success_sound()
-		star_animation_in_progress = true
-		$Background/Timer.stop()
-		$Star/AnimateStar.play("star")
-		_low_round_music()
+		if answer not in play_list:
+			set_answer_label_text()
+			_success_sound()
+			star_animation_in_progress = true
+			$Background/Timer.stop()
+			$Star/AnimateStar.play("star")
+			if music1:
+				_low_round_music()
 		
 #region onFinished Animations
 
 # When proceed past start menu
 func _on_proceed_past_start_animation_finished(anim_name: StringName) -> void:
+	startmenu = false
 	star_animation_in_progress = false
 	$Background/StartMenuPrompt.visible = false
 	$Background/Logo.visible = false
@@ -329,7 +395,12 @@ func create_centered_control_node():
 	# TextureRect setup
 	# This instantiates the prompt image
 	var texture_rect = TextureRect.new()
-	texture_rect.texture = load(image_path)
+	if prompt_type == "picture":
+		texture_rect.texture = load(prompt_path)
+	elif prompt_type == "sound":
+		texture_rect.texture = load("res://Assets/Prompts/audio.png")
+		_prompt_sound()
+		
 	texture_rect.stretch_mode = TextureRect.StretchMode.STRETCH_KEEP_ASPECT_CENTERED
 	texture_rect.set_anchors_preset(Control.LayoutPreset.PRESET_CENTER)
 	texture_rect.anchor_left = 0.5
@@ -490,12 +561,38 @@ func remove_gamemode_selection():
 		control_node_ref.queue_free()
 		control_node_ref = null
 
+func prompt_gamemode_decider():
+	var prompt_dictionary
+	if gamemode == "picture_mode":
+		prompt_type = "picture"
+		return visual_prompt_dictionary
+	elif gamemode == "sound_mode":
+		prompt_type = "sound"
+		return audio_prompt_dictionary
+	elif gamemode == "mixed_mode":
+		var decider = randi_range(0, 1)
+		if decider == 0:
+			prompt_type = "picture"
+			return visual_prompt_dictionary
+		else:
+			prompt_type = "sound"
+			return audio_prompt_dictionary
+	else:
+		print("prompt_gamemode_decider error")
+
 func _next_prompt():
 	# Get a random prompt
 	#_high_round_music()
-	var new_prompt = get_random_prompt(visual_prompt_dictionary, answer_list[0])
+	var prompt_dictionary = prompt_gamemode_decider()
+	var new_prompt = get_random_prompt(prompt_dictionary, answer_list[0])
 	answer_list = new_prompt[0]
-	image_path = new_prompt[1]
+	prompt_path = new_prompt[1]
+	
+	if music1:
+		if prompt_type == "picture":
+			_high_round_music()
+		elif prompt_type == "sound":
+			_low_round_music()
 	
 	# Clear old prompt, and populate new prompt
 	remove_control_node()
@@ -567,6 +664,12 @@ func _card_select_sound():
 	audio_player.stream = sound
 	audio_player.play()
 	
+func _prompt_sound():
+	var audio_player = $Audio/Effects/PromptSoundPlayer
+	var sound = load(prompt_path)
+	audio_player.stream = sound
+	audio_player.play()
+	
 # Music
 #####################
 func _start_menu_music():
@@ -581,13 +684,16 @@ func _stop_menu_music():
 	var audio_player = $Audio/Music/MenuMusic
 	audio_player.stop()
 	
+func _mute_menu_music():
+	var audio_player = $Audio/Music/MenuMusic
+	audio_player.set_volume_db(-80.0)
+	
 func _low_menu_music():
 	var audio_player = $Audio/Music/MenuMusic
 	audio_player.set_volume_db(-9.0)
 	
 func _high_menu_music():
 	var audio_player = $Audio/Music/MenuMusic
-	audio_player.stop()
 	audio_player.set_volume_db(0)
 
 func _start_round_music():
@@ -602,6 +708,10 @@ func _stop_round_music():
 	var audio_player = $Audio/Music/RoundMusic
 	audio_player.stop()
 	
+func _mute_round_music():
+	var audio_player = $Audio/Music/RoundMusic
+	audio_player.set_volume_db(-80.0)
+
 func _low_round_music():
 	var audio_player = $Audio/Music/RoundMusic
 	audio_player.set_volume_db(-9.0)
@@ -616,3 +726,22 @@ func _on_mic_timer_timeout() -> void:
 	print("MicTimer: reset")
 	speech_recognizer.StopSpeechRecognition()
 	speech_recognizer.StartSpeechRecognition()
+
+
+func _on_music_button_pressed() -> void:
+	if music1 == true:
+		music1 = false
+		MusicButton.texture = load("res://Assets/UI/music_off.png")
+		_mute_menu_music()
+		_mute_round_music()
+
+
+	elif music1 == false:
+		music1 = true
+		MusicButton.texture = load("res://Assets/UI/music_on.png")
+		if gamemode == "":
+			_high_menu_music()
+		elif gamemode == "sound_mode" or gamemode == "mixed_mode":
+			_low_round_music()
+		else:
+			_high_round_music()
