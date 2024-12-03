@@ -18,10 +18,10 @@ var left_to_solve_array_audio = []
 var guess_string = ""
 var answer_string = ""
 var score = 0
-var gamemode_list = [["one", "won", "young", "pictures", "pitchers"], ["two", "to", "too", "do", "sounds", "found"], ["three", "both", "oath", "next"]]
+var prompt_counter = 0
+var gamemode_list = [["one", "won", "young", "pictures", "pitchers"], ["two", "to", "too", "do", "sounds", "found"], ["three", "both", "oath", "oh", "next"]]
 var gamemode = ""
 var gamemode_select = false
-var star_animation_in_progress = false
 var music1
 var startmenu = true
 #endregion
@@ -32,7 +32,6 @@ var startmenu = true
 
 func _ready():
 	music1 = true
-	#MusicButton.texture = load("res://Assets/UI/music_on.png")
 	# init asset visibility
 	$Background/Control/CountNumber.visible = false
 	$Background/StartMenuPrompt.visible = true
@@ -41,39 +40,52 @@ func _ready():
 	$Background/Logo/Scramble.visible = true
 	$Score.visible = false
 	$Background/BlackScreen.visible = false
-	$Star.visible = false
-	$Score.visible = false
 	$Background/RoundBgShadow.visible = false
 	$Background/Cards.visible = false
 	$Background/Cards/CardOne.visible = false
 	$Background/Cards/CardTwo.visible = false
 	$Background/Cards/CardThree.visible = false
+	$Background/AnimateRoundOver/RoundOverText.visible = false
+	$Background/AnimateRoundOver/Label.visible = false
+	$Background/AnimateRoundOver/RoundOverStar.visible = false
 	
 	# Fill up our dictionaries with prompts (audio and visual)
-	visual_prompt_dictionary["horse"] = [["horse","force", "course", "or", "source", "rouse"], "res://Assets/Prompts/horse.png"]
-	visual_prompt_dictionary["rabbit"] = [["rabbit", "reset", "radish", "rabbid", "labbit"], "res://Assets/Prompts/rabbit.png"]
+	visual_prompt_dictionary["horse"] = [["horse","horses","force", "course", "or", "source", "rouse", "worse", "worse"], "res://Assets/Prompts/horse.png"]
+	visual_prompt_dictionary["rabbit"] = [["rabbit", "rabbits", "reset", "radish", "rabbid", "labbit"], "res://Assets/Prompts/rabbit.png"]
 	visual_prompt_dictionary["dog"] = [["dog", "hog", "dob", "da"], "res://Assets/Prompts/dog.png"]
 	visual_prompt_dictionary["cat"] = [["cat", "ka", "kurt", "can", "get", "cap", "can't"], "res://Assets/Prompts/cat.png"]
-	visual_prompt_dictionary["lion"] = [["lion", "i", "i'm", "why", "liar", "light", "am"], "res://Assets/Prompts/lion.png"]
+	visual_prompt_dictionary["lion"] = [["lion", "i", "i'm", "why", "liar", "light", "am", "and"], "res://Assets/Prompts/lion.png"]
 	visual_prompt_dictionary["panda"] = [["panda", "handa", "the", "and"], "res://Assets/Prompts/panda.png"]
-	visual_prompt_dictionary["cow"] = [["cow", "cao", "go"], "res://Assets/Prompts/cow.png"]
+	visual_prompt_dictionary["cow"] = [["cow", "cao", "go", "how"], "res://Assets/Prompts/cow.png"]
 	visual_prompt_dictionary["elephant"] = [["elephant", "elegant"], "res://Assets/Prompts/elephant.png"]
 	visual_prompt_dictionary["giraffe"] = [["giraffe"], "res://Assets/Prompts/giraffe.png"]
-	visual_prompt_dictionary["penguin"] = [["penguin", "anglin", "hander"], "res://Assets/Prompts/penguin.png"]
-	visual_prompt_dictionary["eagle"] = [["eagle", "go"], "res://Assets/Prompts/eagle.png"]
+	visual_prompt_dictionary["penguin"] = [["penguin", "anglin", "hander", "on"], "res://Assets/Prompts/penguin.png"]
+	visual_prompt_dictionary["eagle"] = [["eagle", "go", "you"], "res://Assets/Prompts/eagle.png"]
 	visual_prompt_dictionary["alligator"] = [["alligator"], "res://Assets/Prompts/alligator.png"]
 	visual_prompt_dictionary["shark"] = [["shark"], "res://Assets/Prompts/shark.png"]
+	visual_prompt_dictionary["bear"] = [["bear", "bare", "there", "their"], "res://Assets/Prompts/bear.png"]
+	visual_prompt_dictionary["butterfly"] = [["butterfly", "for"], "res://Assets/Prompts/butterfly.png"]
+	visual_prompt_dictionary["dolphin"] = [["dolphin"], "res://Assets/Prompts/dolphin.png"]
+	visual_prompt_dictionary["frog"] = [["frog"], "res://Assets/Prompts/frog.png"]
+	visual_prompt_dictionary["monkey"] = [["monkey", "maki"], "res://Assets/Prompts/monkey.png"]
+	visual_prompt_dictionary["koala"] = [["koala", "all"], "res://Assets/Prompts/koala.png"]
+	visual_prompt_dictionary["pig"] = [["pig", "a"], "res://Assets/Prompts/pig.png"]
+	visual_prompt_dictionary["snake"] = [["snake"], "res://Assets/Prompts/snake.png"]
+	visual_prompt_dictionary["turtle"] = [["turtle", "total"], "res://Assets/Prompts/turtle.png"]
+	visual_prompt_dictionary["tiger"] = [["tiger"], "res://Assets/Prompts/tiger.png"]
+	visual_prompt_dictionary["kangaroo"] = [["kangaroo"], "res://Assets/Prompts/kangaroo.png"]
+
 	
 	audio_prompt_dictionary["cat"] = [["cat", "ka", "kurt", "can", "get", "cap", "can't"], "res://Audio/Prompts/cat1.mp3"]
-	audio_prompt_dictionary["chicken"] = [["chicken"], "res://Audio/Prompts/chicken1.mp3"]
-	audio_prompt_dictionary["cow"] = [["cow", "cao", "go"], "res://Audio/Prompts/cow1.mp3"]
+	audio_prompt_dictionary["chicken"] = [["chicken","shaken"], "res://Audio/Prompts/chicken1.mp3"]
+	audio_prompt_dictionary["cow"] = [["cow", "cao", "go", "how"], "res://Audio/Prompts/cow1.mp3"]
 	audio_prompt_dictionary["dog"] = [["dog", "hog", "dob", "da"], "res://Audio/Prompts/dog1.mp3"]
-	audio_prompt_dictionary["goat"] = [["goat", "go"], "res://Audio/Prompts/goat1.mp3"]
-	audio_prompt_dictionary["hawk"] = [["hawk"], "res://Audio/Prompts/hawk1.mp3"]
-	audio_prompt_dictionary["horse"] = [["horse","force", "course", "or", "source", "rouse"], "res://Audio/Prompts/horse1.mp3"]
+	audio_prompt_dictionary["goat"] = [["goat", "go", "no", "doubt"], "res://Audio/Prompts/goat1.mp3"]
+	audio_prompt_dictionary["hawk"] = [["hawk", "oc", "park"], "res://Audio/Prompts/hawk1.mp3"]
+	audio_prompt_dictionary["horse"] = [["horse","force", "course", "or", "source", "rouse", "worse", "worse"], "res://Audio/Prompts/horse1.mp3"]
 	audio_prompt_dictionary["monkey"] = [["monkey"], "res://Audio/Prompts/monkey1.mp3"]
-	audio_prompt_dictionary["owl"] = [["owl","our","will","al","oh","ow"], "res://Audio/Prompts/owl1.mp3"]
-	audio_prompt_dictionary["wolf"] = [["wolf","of"], "res://Audio/Prompts/wolf1.mp3"]
+	audio_prompt_dictionary["owl"] = [["owl","our","will","al","oh","ow", "i'll"], "res://Audio/Prompts/owl1.mp3"]
+	audio_prompt_dictionary["wolf"] = [["wolf","of", "off"], "res://Audio/Prompts/wolf1.mp3"]
 
 	# Fill up our list of unsolved prompts with animals
 	refill_left_to_solve_visual()
@@ -145,9 +157,7 @@ func _on_exit_button_pressed() -> void:
 func _process(_delta):
 	# Label to display score is updated every tick
 	$Score/StarScoreLabel.text = str(score)
-	#if score > 4:
-		#get_tree().reload_current_scene()
-		#start_menu_play()
+	$Background/AnimateRoundOver/Label.text = str(score)
 
 # Connect with transcription script and the signals it emits
 # Start speech recognition
@@ -286,7 +296,6 @@ func guess_success(answer: String):
 		if answer not in play_list:
 			set_answer_label_text()
 			_success_sound()
-			star_animation_in_progress = true
 			$Background/Timer.stop()
 			$Star/AnimateStar.play("star")
 			if music1:
@@ -297,12 +306,10 @@ func guess_success(answer: String):
 # When proceed past start menu
 func _on_proceed_past_start_animation_finished(anim_name: StringName) -> void:
 	startmenu = false
-	star_animation_in_progress = false
 	$Background/StartMenuPrompt.visible = false
 	$Background/Logo.visible = false
-	$Score.visible = true
 	$Background/BlackScreen.visible = false
-	$Star.visible = false
+	#$Star.visible = false
 	$Star/StarSprite.visible = false
 	_game_mode_selection()
 
@@ -310,11 +317,6 @@ func _on_proceed_past_start_animation_finished(anim_name: StringName) -> void:
 func _on_animate_menu_images_fade_out_animation_finished(anim_name: StringName) -> void:
 	$Background/AnimateMenuImages.stop()
 
-# Star animation finished (scored a point)
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	score += 1
-	_coin_sound()
-	_next_prompt()
 
 func _on_animate_cards_animation_finished(anim_name: StringName) -> void:
 	$Background/FadeOut.play("fade_out")
@@ -322,9 +324,11 @@ func _on_animate_cards_animation_finished(anim_name: StringName) -> void:
 # Black fade "out" is finished
 func _on_fade_out_animation_finished(anim_name: StringName) -> void:
 	_stop_menu_music()
-	$Score/Star.visible = true
-	$Score/StarScoreLabel.visible = true
 	$Background/FadeIn.play("fade_in_sound")
+	$Score.visible = true
+	#$Score/Star.visible = true
+	$Score/Star.position = Vector2(85, 565)
+	$Score/StarScoreLabel.visible = true
 	$Background/RoundBgShadow.visible = true
 	$Background/Cards.visible = false
 	$Background/Cards/CardOne.visible = false
@@ -335,6 +339,21 @@ func _on_fade_out_animation_finished(anim_name: StringName) -> void:
 func _on_fade_in_animation_finished(anim_name: StringName) -> void:
 	$Background/AnimateBackground.play("round_countdown")
 
+
+func stop_all_animations(node):
+	if node is AnimationPlayer:
+		node.stop()
+	for child in node.get_children():
+		stop_all_animations(child)
+
+func end_round():
+	#$Score/StarScoreLabel.visible = false
+	# Stop all animations
+	$Background/AnimateRoundOver/Label.text = str(score)
+	stop_all_animations(get_tree().root)
+	# Play the "round_over" animation
+	$Background/AnimateRoundOver.play("round_over")
+
 # A background animation is complete
 func _on_animate_background_animation_finished(anim_name: StringName) -> void:
 	
@@ -343,6 +362,11 @@ func _on_animate_background_animation_finished(anim_name: StringName) -> void:
 		_start_round_music()
 		$MicTimer.stop()
 		_next_prompt()
+
+func _on_animate_round_over_animation_finished(anim_name: StringName) -> void:
+	_game_mode_selection()
+	_start_round_music()
+	score = 0
 
 func set_answer_label_text():
 	if answer_list[0] == null:
@@ -369,7 +393,6 @@ func _fail_prompt():
 		await sleep(2)
 		
 		_next_prompt()
-		#$animation.play("fail_prompt")
 
 # Player fails prompt (runs out of time)
 func _on_timer_animation_finished(anim_name: StringName) -> void:
@@ -583,6 +606,7 @@ func prompt_gamemode_decider():
 func _next_prompt():
 	# Get a random prompt
 	#_high_round_music()
+	prompt_counter += 1
 	var prompt_dictionary = prompt_gamemode_decider()
 	var new_prompt = get_random_prompt(prompt_dictionary, answer_list[0])
 	answer_list = new_prompt[0]
@@ -596,12 +620,18 @@ func _next_prompt():
 	
 	# Clear old prompt, and populate new prompt
 	remove_control_node()
-	create_centered_control_node()
-	speech_recognizer.StartSpeechRecognition()
-	$Background/Timer.play("timer")
+	
+	if prompt_counter > 9:
+		end_round()
+		prompt_counter = 0
+	else:
+		create_centered_control_node()
+		speech_recognizer.StartSpeechRecognition()
+		$Background/Timer.play("timer")
 
 func _game_mode_selection():
 	gamemode_select = true
+	gamemode = ""
 	remove_control_node()
 	create_gamemode_selection()
 	speech_recognizer.StartSpeechRecognition()
@@ -745,3 +775,9 @@ func _on_music_button_pressed() -> void:
 			_low_round_music()
 		else:
 			_high_round_music()
+
+
+func _on_animate_star_animation_finished(anim_name: StringName) -> void:
+	score += 1
+	_coin_sound()
+	_next_prompt()
