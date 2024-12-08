@@ -11,7 +11,7 @@ Currently ran through the Godot 4.3 Mono Editor.
 
 IMPLEMENTATION TIMELINE:
 
-Milestone 1:
+		Milestone 1:
 
    ∙ This iteration of the project was focused on setting up the screen navigation between the game's main menu and the round view, where prompts are delivered to the user.
 
@@ -19,7 +19,7 @@ Milestone 1:
 
    ∙ Lastly, the project had the Godot Whisper plugin added to begin working on speech transcription.
 
-Milestone 2:
+		Milestone 2:
 
    ∙ In milestone 2, our project moved away from Godot Whisper plugin and instead used a C# script to transribe speech with the VOSK model with a focus on lightweight transcription for mobile processor compatibility.
 
@@ -27,7 +27,7 @@ Milestone 2:
 
    ∙ From a visual design perspective, we implemented animations into the project such as a moving background. We added animal pictures to test visual prompts.
 
-Milestone 3:
+		Milestone 3:
 
    ∙ Focused on game loop design as app complexity was growing.
 
@@ -39,7 +39,7 @@ Milestone 3:
 
    ∙ A redesign of the app visual and audio themes. Animated the menu title.
 
-Milestone 4:
+		Milestone 4:
 
    ∙ Implemented the audio prompt mode and mixed mode.
 
